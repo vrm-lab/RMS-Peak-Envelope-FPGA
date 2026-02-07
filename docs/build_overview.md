@@ -1,30 +1,28 @@
 # Build Overview
 
-This repository contains a hardware-oriented implementation of a
-**RMS / Peak envelope extraction module** designed for FPGA-based audio DSP.
+This module implements a **RMS / Peak envelope extractor** intended for
+real-time audio signal analysis on FPGA.
 
-The design is written in synthesizable Verilog and validated using
-SystemVerilog testbenches. Integration into a Zynq UltraScale+ system
-is demonstrated through a reference Vivado Block Design.
+The design is fully streaming, written in synthesizable Verilog, and
+validated using SystemVerilog testbenches. A reference AXI-based
+integration is provided for Zynq UltraScale+ platforms.
 
-## Scope
+## Design Scope
 
-- Focus on **streaming DSP logic**, not full SoC infrastructure
-- AXI-Stream for data path
-- AXI-Lite for configuration and status
-- Designed and tested on **Kria KV260**
+- Continuous sample-by-sample processing
+- No frame buffering
+- Deterministic latency
+- Suitable for control and analysis paths (not audio playback)
 
-## What This Repo Is (and Is Not)
+## Module Variants
 
-**This repo is:**
-- RTL-centric
-- Deterministic and sample-accurate
-- Designed for reuse as a DSP building block
+- `rms_peak_core`  
+  Pure DSP logic (no bus dependency)
 
-**This repo is NOT:**
-- A full audio processing pipeline
-- A portable Vivado project template
-- A PS software reference
+- `rms_peak_axis`  
+  AXI-Stream + AXI-Lite wrapper for SoC integration
 
-Block design scripts and address maps are provided **for documentation
-and reproducibility only**.
+## Target Platform
+
+- Verified on **Kria KV260**
+- Clock domain: single synchronous clock
